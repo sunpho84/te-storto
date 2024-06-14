@@ -2,6 +2,7 @@
 
 Example 
 
+``` 
 Going to work with 8 threads
 Volume: 402653184
 Vector a filled
@@ -31,3 +32,5 @@ Projection after cast to 13 bits: (-4.025099444649919e-09,3.486264491796845e-09)
 Projection after cast to 12 bits: (6.955120576537989e-09,7.100109536845858e-09)
 Projection after cast to 11 bits: (5.645677618959998e-09,-5.489601247779226e-09)
 Projection after cast to 10 bits: (-2.984152932614866e-08,-3.576763594661115e-09)
+
+```
