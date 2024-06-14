@@ -18,10 +18,12 @@ struct Vect :
   const string t;
   
   Vect(const size_t& v,
-    const string& t) :
+       const string& t,
+       mt19937_64& gen) :
     vector<complex<T>>(v),
     t(t)
   {
+    fill(gen);
   }
   
   void fill(mt19937_64& gen)
@@ -89,12 +91,11 @@ struct Vect :
 int main()
 {
   mt19937_64 gen(235235523);
-  cout<<V<<endl;
+  cout<<"Volume: "<<V<<endl;
   
-  Vect<double> a(V,"a"),b(V,"b");
+  Vect<double> a(V,"a",gen);
   
-  for(auto & v : {&a,&b})
-    v->fill(gen);
+  Vect<double> b(V,"b",gen);
   
   a.normalize();
   
@@ -111,7 +112,7 @@ int main()
   
   const Compl ppf=
     a.getProjectionWith(b);
-  cout<<"Verify projection again: "<<ppf<<endl;
+  cout<<"Projection after cast to float: "<<ppf<<endl;
   
   return 0;
 }
