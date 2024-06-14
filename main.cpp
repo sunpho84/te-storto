@@ -10,11 +10,10 @@ const size_t V=64*64*64*128*12;
 using Compl=
   complex<double>;
 
-#pragma omp declare							\
-  reduction(								\
-						+ :			\
-						std::complex<double> :	\
-						omp_out += omp_in )	\
+#pragma omp declare			\
+  reduction(+ :				\
+	    std::complex<double> :	\
+	    omp_out += omp_in )		\
   initializer(omp_priv = omp_orig)
 
 double truncateToNbits(const double& x,
@@ -60,6 +59,7 @@ struct Vect :
   {
     double s=0;
     
+#pragma omp parallel for reduction(+:s)
     for(size_t i=0;i<this->size();i++)
       s+=norm((*this)[i]);
     
@@ -87,6 +87,7 @@ struct Vect :
       getProjectionWith(oth);
     cout<<t<<" projection on "<<oth.t<<": "<<p<<endl;
     
+#pragma omp parallel for
     for(size_t i=0;i<this->size();i++)
       (*this)[i]-=p*oth[i];
     cout<<t<<" projected away from "<<oth.t<<", residual projection: "<<getProjectionWith(oth)<<endl;
@@ -96,6 +97,7 @@ struct Vect :
   {
     Vect out(this->size(),t+"f");
     
+#pragma omp parallel for
     for(size_t i=0;i<this->size();i++)
       out[i]=complex<float>((*this)[i]);
     
@@ -108,6 +110,7 @@ struct Vect :
   {
     Vect out(this->size(),t+"f");
     
+#pragma omp parallel for
     for(size_t i=0;i<this->size();i++)
       out[i]=complex<double>(::truncateToNbits((*this)[i].real(),N),
 			     ::truncateToNbits((*this)[i].imag(),N));
