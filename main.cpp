@@ -1,3 +1,4 @@
+#include <omp.h>
 #include <random>
 #include <complex>
 #include <vector>
@@ -124,6 +125,7 @@ struct Vect :
 
 int main()
 {
+  cout<<"Going to work with "<<omp_get_max_threads()<<" threads"<<endl;
   cout.precision(16);
   // cout<<M_PI<<" "<<endl;
   // cout<<(float)M_PI<<endl;
