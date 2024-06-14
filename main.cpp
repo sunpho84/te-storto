@@ -10,8 +10,15 @@ const size_t V=64*64*64*128*12;
 using Compl=
   complex<double>;
 
+#pragma omp declare							\
+  reduction(								\
+						+ :			\
+						std::complex<double> :	\
+						omp_out += omp_in )	\
+  initializer(omp_priv = omp_orig)
+
 double truncateToNbits(const double& x,
-		    const size_t& N)
+		       const size_t& N)
 {
   const double t=
     (1lu<<(53-N))*x;
@@ -42,6 +49,7 @@ struct Vect :
   {
     complex<double> s=0;
     
+#pragma omp parallel for reduction(+:s)
     for(size_t i=0;i<this->size();i++)
       s+=conj(oth[i])*(*this)[i];
     
