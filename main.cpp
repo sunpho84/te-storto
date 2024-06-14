@@ -76,6 +76,7 @@ struct Vect :
     const double a=
       sqrt(aa);
     
+#pragma omp parallel for
     for(auto& c : *this)
       c/=a;
     
